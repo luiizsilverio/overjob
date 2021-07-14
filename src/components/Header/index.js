@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import styles from './Header.module.css'
+import styles from './styles.module.css'
 
 function Header() {
   return (
@@ -11,13 +11,14 @@ function Header() {
             passHref
           >
             <a>
-              <Image
+              <h1>OverJob</h1>
+              {/* <Image
                 src="/images/logo.svg"
                 width="200"
                 height="40"
                 alt="Logo do Overjob"
-              />
-            </a>
+              /> */}
+            </a>           
           </Link>
 
           <Link
@@ -25,7 +26,7 @@ function Header() {
             passHref
           >
             <a>
-              <button className="styles.publish">
+              <button className={styles.publish}>
                 Cadastrar Vaga
               </button>
             </a>
@@ -40,9 +41,9 @@ function Header() {
             <button>
               <Image
                 src="/images/lupa.svg"     
+                alt="Ícone de pesquisa"
                 width={24}
                 height={24}          
-                alt="Ícone de pesquisa"
               />
             </button>
           </div>
