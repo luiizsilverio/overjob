@@ -1,19 +1,29 @@
 import styles from './styles.module.css'
 
-function Filters() {
+function Filters({ category, filters, onChange }) {
   return (
-    <>
-      <div className={styles.filters}>
-        <h4 className={styles.title}>Categoria</h4>
-        
-        <ul className={styles.filter_list}>
-          <li>
-            <input type="checkbox" name="uf" id="uf" />
-            <label for="uf">SP</label>
-          </li>
-        </ul>
-      </div>
-    </>
+    <div className={styles.filters}>       
+      <h4 className={styles.title}>{ category }</h4>
+      <ul className={styles.filter_list}>
+        { 
+          filters && 
+          filters.map(filter => {
+            const id = `${category.toLowerCase()} - ${filter.toString().replace(" ", "")}`
+            return (
+              <li key={ id }>
+                <input 
+                  type="checkbox" 
+                  name={ category.toLowerCase() } 
+                  id={ id }
+                  onChange={(ev) => onChange(category, ev.target.checked, filter)}
+                />
+                <label htmlFor={ id }>{ filter }</label>
+              </li>
+            )
+          })
+        }
+      </ul>
+    </div>
   )
 }
 

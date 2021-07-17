@@ -1,11 +1,5 @@
 .filters {
-  width: 25rem;
-  margin: 2rem 5rem 0;
-  background-color: var(--color-dark-blue);
-  border: 1px solid rgba(151, 145, 255, 0.7);
-  border-radius: 0.5rem;
-  max-height: 50rem;
-  padding: 2rem;
+
 }
 
 .filter_list {
@@ -25,4 +19,8 @@
   font-weight: 700;
   margin-top: 1rem;
   margin-bottom: 10px;
+}
+
+.filters {
+  
 }
