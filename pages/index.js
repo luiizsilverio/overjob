@@ -34,7 +34,6 @@ export default function Home({ jobs }) {
   }
 
   function handleToggleFilter(key, checked, value) {
-    console.log(key, checked, value)
     let field
     switch (key) {
       case 'estado':
@@ -156,15 +155,16 @@ export default function Home({ jobs }) {
     </div>
   )
 }
-
-export async function getStaticProps() {
-  const { data: { error, jobs = []} } = await axios
-    .get('http://localhost:3000/api/jobs?secret=1234')
  
+//export async function getStaticProps() {
+export async function getServerSideProps() {
+  const { data: { error, jobs = []} } = await 
+    axios.get(`http://localhost:3000/api/jobs?secret=1234`)
+     
   return {
     props: {
       jobs
     },
-    revalidate: 5000 // 5 segundos
+    //revalidate: 5000 // 5 segundos
   }
 }

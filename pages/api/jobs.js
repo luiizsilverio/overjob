@@ -4,12 +4,12 @@ import jobs from '../../src/docs/jobs.json'
 export default (req, res) => {
   const { id } = req.query;
 
-  if (req.query.secret !== '1234') {
-    res.status(400).json({ 
-      error: true,      
-      message: "Secret inválida"
-    })
-  }
+  // if (req.query.secret !== '1234') {
+  //   res.status(400).json({ 
+  //     error: true,      
+  //     message: "Secret inválida"
+  //   })
+  // }
 
   if (req.method === 'GET') {
     if (id) {
