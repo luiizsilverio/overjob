@@ -6,7 +6,7 @@ import styles from './styles.module.css'
 
 export default function Job({ job }) {
   return (
-    <div className={styles.container}>
+    <div>
       <Header showSearch={false} />
 
       <div className={styles.card}>
