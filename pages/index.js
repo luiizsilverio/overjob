@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import axios from 'axios'
 
 import styles from '../styles/Home.module.css'
@@ -18,6 +19,20 @@ export default function Home({ jobs }) {
   const [jobList, setJobList] = useState(jobs)
   const [activeFilter, setActiveFilter] = useState({})
   
+  const handleSearch = async (title, city) => {
+    if (!title && city) {
+      setJobList(jobs);
+    }
+
+    if (title) {
+      setJobList(jobs.filter(job => job.title.toUpperCase().includes(title.toUpperCase())))
+    }
+
+    if (city) {
+      setJobList(jobs.filter(job => job.city.toUpperCase().includes(city.toUpperCase())))
+    }
+  }
+
   function handleToggleFilter(key, checked, value) {
     console.log(key, checked, value)
     let field
@@ -36,10 +51,13 @@ export default function Home({ jobs }) {
         break;
       case 'categoria':
         field = 'category'
-        break;      
+        break;            
     }
 
-    setActiveFilter(prevState => ({...prevState, [value]: { field: checked }}))
+    setActiveFilter(prevState => ({
+      ...prevState, 
+      [value]: { field, checked }
+    }))
   }
 
   useEffect(() => {  
@@ -72,34 +90,32 @@ export default function Home({ jobs }) {
     })
   }, [jobs])
   
-  useEffect(() => {  
-    let newJobs = []
-
+  useEffect(() => {
+    let _jobs = [];
     Object.keys(activeFilter).map(key => {
-      let found = false
+      let found = false;
       if (activeFilter[key].checked) {
-        found = true
-        newJobs = [...jobs, ...jobs.filter(job => 
-          job[activeFilter[key].field === key])]
+        found = true;
+        _jobs = [..._jobs, ...jobs.filter(job => job[activeFilter[key].field] == key)];
       }
 
-      if (found) {
-        setJobList(newJobs)
+      if (!found) {
+        setJobList(jobs);
       } else {
-        setJobList(jobs)
+        setJobList(_jobs);
       }
-    })    
-  }, [activeFilter])
+    });
+
+  }, [activeFilter]);
 
   return (
     <div className={styles.structure}>
-      <Header />
+      <Header onClick={handleSearch}/>
 
       <div className={styles.cardContainer}>
         <div className={styles.filter}>
           <h4>Definir busca</h4>
-          <div className={styles.filter_list}>
-          
+          <div className={styles.filter_list}>          
             {
               Object.keys(filters).map((key, index) => (
                 <Filters 
@@ -115,16 +131,25 @@ export default function Home({ jobs }) {
         
         <div className={styles.cards}>
           {
-            jobList && jobList.map((job, index) => (
-              <Card 
-                key={index} 
-                title={job.title}
-                description={job.description}
-                company={job.enterprise}
-                day={job.day}
-                local={`${job.city} - ${job.state}`}
-              />    
-            ))
+            jobList &&
+              jobList.map((job, index) => (
+                <Link
+                  href={ `/job/${ job.id }` }
+                  passHref
+                  key={index}
+                >
+                  <a>
+                    <Card
+                      key={index}
+                      title={job.title}
+                      description={job.description}
+                      enterprise={job.enterprise}
+                      day={job.day}
+                      local={` ${job.city} - ${job.state} `}
+                    />
+                  </a>
+                </Link>
+              ))
           }
         </div>
       </div>
@@ -134,7 +159,7 @@ export default function Home({ jobs }) {
 
 export async function getStaticProps() {
   const { data: { error, jobs = []} } = await axios
-  .get('http://localhost:3000/api/jobs?secret=1234')
+    .get('http://localhost:3000/api/jobs?secret=1234')
  
   return {
     props: {
@@ -143,5 +168,3 @@ export async function getStaticProps() {
     revalidate: 5000 // 5 segundos
   }
 }
-
-filtro nao funcionando handleToggleFilter

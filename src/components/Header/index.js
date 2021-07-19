@@ -1,8 +1,12 @@
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './styles.module.css'
 
-function Header() {
+function Header({ showSearch = true, onClick }) {
+  const [title, setTitle] = useState('')
+  const [city, setCity] = useState('')
+
   return (
     <div className={styles.header}>
         <div className={styles.logo}>
@@ -33,21 +37,34 @@ function Header() {
           </Link>
         </div>
 
-
-        <div className={styles.search}>
-          <div className={styles.searchFields}>
-            <input type="text" placeholder="Digite um cargo" />
-            <input type="text" placeholder="Digite uma cidade" />
-            <button>
-              <Image
-                src="/images/lupa.svg"     
-                alt="Ícone de pesquisa"
-                width={24}
-                height={24}          
+        {
+          showSearch &&
+        
+          <div className={styles.search}>
+            <div className={styles.searchFields}>
+              <input 
+                type="text" 
+                placeholder="Procure pelo nome de uma vaga" 
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
               />
-            </button>
+              <input 
+                type="text" 
+                placeholder="Procure pela cidade" 
+                onChange={(e) => setCity(e.target.value)}
+                value={city}
+              />
+              <button onClick={() => onClick(title, city)} >
+                <Image
+                  src="/images/lupa.svg"     
+                  alt="Ícone de pesquisa"
+                  width={24}
+                  height={24}          
+                />
+              </button>
+            </div>
           </div>
-        </div>
+        }
         
     </div>
   )

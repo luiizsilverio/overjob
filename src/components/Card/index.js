@@ -1,11 +1,11 @@
 import styles from './styles.module.css'
 
-function Card({ title, company, description, day, local }) {
+function Card({ title, enterprise, description, day, local }) {
   return (
     <div className={styles.card}>
       <div className={styles.content}>
         <h2>{ title }</h2>
-        <h3>{ company }</h3>
+        <h3>{ enterprise }</h3>
         <p>{ description }</p>
       </div>
 
